@@ -1,7 +1,7 @@
 import { assertEquals, assertThrows } from "jsr:@std/assert@1";
 import { afterAll } from "jsr:@std/testing@1/bdd";
 import { existsSync } from "jsr:@std/fs@1";
-import { FileCache } from "./file-storage.ts";
+import { FileCache } from "./file-cache.ts";
 
 const TEST_CACHE_NAME = "test-cache";
 const TEST_KEY = "test-key";
