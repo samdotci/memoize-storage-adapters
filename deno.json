@@ -1,6 +1,6 @@
 {
   "name": "@samdotci/memoize-storage-adapters",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "exports": "./mod.ts",
   "tasks": {
     "test": "deno test --allow-read --allow-write --allow-env=TMPDIR,HOME --allow-sys=homedir"
