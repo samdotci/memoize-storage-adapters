@@ -1,12 +1,11 @@
 {
   "name": "@samdotci/memoize-storage-adapters",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "exports": "./mod.ts",
   "tasks": {
     "test": "deno test --allow-read --allow-write --allow-env=TMPDIR,HOME --allow-sys=homedir"
   },
   "imports": {
-    "@std/path": "jsr:@std/path@1",
     "env-paths": "npm:env-paths@^3.0.0",
     "p-memoize": "npm:p-memoize@^7.1.1",
     "safe-stable-stringify": "npm:safe-stable-stringify@^2.4.3"

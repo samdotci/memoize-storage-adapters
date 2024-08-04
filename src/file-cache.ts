@@ -6,7 +6,8 @@
 
 import type { CacheStorage } from "p-memoize";
 import envPaths from "env-paths";
-import { join } from "@std/path";
+import { join } from "node:path";
+import fs from "node:fs";
 import { configure } from "safe-stable-stringify";
 
 const stringify = configure({
@@ -28,7 +29,7 @@ export class FileCache<K extends string, V> implements CacheStorage<K, V> {
    */
   constructor(cacheName: string) {
     this.cacheDir = join(envPaths("memoize-storage-adapters").cache, cacheName);
-    Deno.mkdirSync(this.cacheDir, { recursive: true });
+    fs.mkdirSync(this.cacheDir, { recursive: true });
   }
 
   /**
@@ -52,9 +53,9 @@ export class FileCache<K extends string, V> implements CacheStorage<K, V> {
    */
   has(key: K): boolean {
     try {
-      return Deno.statSync(this.keyPath(key)).isFile;
+      return fs.statSync(this.keyPath(key)).isFile();
     } catch (error) {
-      if (error instanceof Deno.errors.NotFound) {
+      if ((error as NodeJS.ErrnoException).code === "ENOENT") {
         return false;
       }
       throw error;
@@ -67,9 +68,12 @@ export class FileCache<K extends string, V> implements CacheStorage<K, V> {
    */
   get(key: K): V | undefined {
     try {
-      return JSON.parse(Deno.readTextFileSync(this.keyPath(key)));
+      return JSON.parse(fs.readFileSync(this.keyPath(key), "utf8"));
     } catch (error) {
-      if (!(error instanceof Deno.errors.NotFound)) throw error;
+      if ((error as NodeJS.ErrnoException).code === "ENOENT") {
+        return undefined;
+      }
+      throw error;
     }
   }
 
@@ -80,7 +84,7 @@ export class FileCache<K extends string, V> implements CacheStorage<K, V> {
   set(key: K, value: V): void {
     const stringified = stringify(value);
     if (stringified !== undefined) {
-      Deno.writeTextFileSync(this.keyPath(key), stringified);
+      fs.writeFileSync(this.keyPath(key), stringified);
     }
   }
 
@@ -89,9 +93,12 @@ export class FileCache<K extends string, V> implements CacheStorage<K, V> {
    */
   delete(key: K): void {
     try {
-      Deno.removeSync(this.keyPath(key));
+      fs.unlinkSync(this.keyPath(key));
     } catch (error) {
-      if (!(error instanceof Deno.errors.NotFound)) throw error;
+      if ((error as NodeJS.ErrnoException).code === "ENOENT") {
+        return;
+      }
+      throw error;
     }
   }
 
@@ -99,7 +106,7 @@ export class FileCache<K extends string, V> implements CacheStorage<K, V> {
    * Clears entire cache
    */
   clear(): void {
-    Deno.removeSync(this.cacheDir, { recursive: true });
-    Deno.mkdirSync(this.cacheDir, { recursive: true });
+    fs.rmSync(this.cacheDir, { recursive: true });
+    fs.mkdirSync(this.cacheDir, { recursive: true });
   }
 }

@@ -5,9 +5,9 @@
       "jsr:@std/assert@1": "jsr:@std/assert@1.0.2",
       "jsr:@std/fs@1": "jsr:@std/fs@1.0.1",
       "jsr:@std/internal@^1.0.1": "jsr:@std/internal@1.0.1",
-      "jsr:@std/path@1": "jsr:@std/path@1.0.2",
       "jsr:@std/path@^1.0.2": "jsr:@std/path@1.0.2",
       "jsr:@std/testing@1": "jsr:@std/testing@1.0.0",
+      "npm:@types/node": "npm:@types/node@18.16.19",
       "npm:env-paths@^3.0.0": "npm:env-paths@3.0.0",
       "npm:p-memoize@^7.1.1": "npm:p-memoize@7.1.1",
       "npm:safe-stable-stringify@^2.4.3": "npm:safe-stable-stringify@2.4.3"
@@ -36,6 +36,10 @@
       }
     },
     "npm": {
+      "@types/node@18.16.19": {
+        "integrity": "sha512-IXl7o+R9iti9eBW4Wg2hx1xQDig183jj7YLn8F7udNceyfkbn1ZxmzZXuak20gR40D7pIkIY1kYGx5VIGbaHKA==",
+        "dependencies": {}
+      },
       "env-paths@3.0.0": {
         "integrity": "sha512-dtJUTepzMW3Lm/NPxRf3wP4642UWhjL2sQxc+ym2YMj1m/H2zDNQOlezafzkHwn6sMstjHTwG6iQQsctDW/b1A==",
         "dependencies": {}
@@ -64,7 +68,6 @@
   "remote": {},
   "workspace": {
     "dependencies": [
-      "jsr:@std/path@1",
       "npm:env-paths@^3.0.0",
       "npm:p-memoize@^7.1.1",
       "npm:safe-stable-stringify@^2.4.3"
